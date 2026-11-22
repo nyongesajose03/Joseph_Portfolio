@@ -110,9 +110,11 @@
 <section class="content-section contact-section" id="contact">
     <div class="container">
         {% if messages %}
-            <div class="alert alert-success contact-alert" role="status">
-                {% for message in messages %}{{ message }}{% endfor %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }} contact-alert" role="status">
+                {{ message }}
             </div>
+            {% endfor %}
         {% endif %}
         <div class="row g-5 align-items-center">
             <div class="col-lg-5">

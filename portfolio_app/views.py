@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import EmailMessage, send_mail
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -10,28 +10,37 @@ from .forms import ContactMessageForm
 
 
 def home(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        message = request.POST.get('message')
+    form = ContactMessageForm(request.POST or None)
 
-        subject = f"New Portfolio Inquiry from {name}"
-        full_message = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+    if request.method == 'POST' and form.is_valid():
+        contact_message = form.save()
+        subject = f'New portfolio inquiry from {contact_message.name}'
+        body = (
+            f'Name: {contact_message.name}\n'
+            f'Email: {contact_message.email}\n\n'
+            f'Message:\n{contact_message.message}'
+        )
 
         try:
-            send_mail(
-                subject,
-                full_message,
-                'nyongesajose03@gmail.com',  # From email
-                ['nyongesajose03@gmail.com'],  # To email (your inbox)
-                fail_silently=False,
-            )
-            messages.success(request, "Thank you! Your message has been sent.")
+            EmailMessage(
+                subject=subject,
+                body=body,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=[settings.CONTACT_EMAIL],
+                reply_to=[contact_message.email],
+            ).send(fail_silently=False)
         except Exception:
-            messages.error(request, "Something went wrong. Please email me directly at nyongesajose03@gmail.com.")
+            messages.warning(
+                request,
+                'Your message was saved, but the email notification could not be sent. '
+                'Please email me directly at nyongesajose03@gmail.com.',
+            )
+        else:
+            messages.success(request, 'Thank you! Your message has been sent.')
 
-        return redirect('/#contact')
-    return render(request, 'home.html')
+        return redirect(f'{reverse("home")}#contact')
+
+    return render(request, 'home.html', {'form': form})
 
 
 def sitemap(request):
