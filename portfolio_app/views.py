@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -10,30 +10,28 @@ from .forms import ContactMessageForm
 
 
 def home(request):
-    form = ContactMessageForm(request.POST or None)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
 
-    if request.method == 'POST' and form.is_valid():
-        contact_message = form.save()
-        email_sent = EmailMessage(
-            subject=f'Portfolio enquiry from {contact_message.name}',
-            body=(
-                f'Name: {contact_message.name}\n'
-                f'Email: {contact_message.email}\n\n'
-                f'{contact_message.message}'
-            ),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=[settings.CONTACT_EMAIL],
-            reply_to=[contact_message.email],
-        ).send(fail_silently=True)
-        if email_sent and 'console' not in settings.EMAIL_BACKEND.lower():
-            messages.success(request, 'Thanks for reaching out. Your message has been emailed successfully.')
-        elif email_sent:
-            messages.info(request, 'Your message was saved successfully. The email notification is currently being printed to the development console.')
-        else:
-            messages.info(request, 'Your message was saved successfully. Email notifications will be sent once SMTP is configured.')
-        return redirect('home')
+        subject = f"New Portfolio Inquiry from {name}"
+        full_message = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
 
-    return render(request, 'home.html', {'form': form})
+        try:
+            send_mail(
+                subject,
+                full_message,
+                'nyongesajose03@gmail.com',  # From email
+                ['nyongesajose03@gmail.com'],  # To email (your inbox)
+                fail_silently=False,
+            )
+            messages.success(request, "Thank you! Your message has been sent.")
+        except Exception:
+            messages.error(request, "Something went wrong. Please email me directly at nyongesajose03@gmail.com.")
+
+        return redirect('/#contact')
+    return render(request, 'home.html')
 
 
 def sitemap(request):

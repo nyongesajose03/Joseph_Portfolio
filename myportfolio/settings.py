@@ -29,7 +29,14 @@ SECRET_KEY = 'django-insecure-9zam)68doq1n7rebpdg%pl5e)bb)8i6=vo5frq9=%6$fl6u#uo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['://pythonanywhere.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv(
+        'ALLOWED_HOSTS',
+        'nyongesa03.pythonanywhere.com,127.0.0.1,localhost',
+    ).split(',')
+    if host.strip()
+]
 
 # Application definition
 
@@ -143,4 +150,3 @@ CONTACT_EMAIL = os.getenv('CONTACT_EMAIL', 'nyongesajose03@gmail.com')
 SITE_URL = os.getenv('SITE_URL', '').rstrip('/')
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-ALLOWED_HOSTS = ['nyongesa03.pythonanywhere.com', '127.0.0.1', 'localhost']
