@@ -1,0 +1,24 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Joseph Nyongesa — full-stack software developer building practical digital experiences.">
+    <title>{% block title %}Joseph Nyongesa | Full-stack software developer{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/site-theme.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg site-navbar" aria-label="Primary navigation">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'home' %}"><span class="brand-mark" aria-hidden="true">JN</span><span>Joseph <span class="brand-light">Nyongesa</span></span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNavigation" aria-controls="siteNavigation" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="siteNavigation"><ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2"><li class="nav-item"><a class="nav-link" href="#about">About</a></li><li class="nav-item"><a class="nav-link" href="#education">Education</a></li><li class="nav-item"><a class="nav-link" href="#services">Services</a></li><li class="nav-item"><a class="nav-link" href="#work">Work</a></li><li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li></ul></div>
+        </div>
+    </nav>
+    <main class="site-main">{% block content %}{% endblock %}</main>
+    <footer class="site-footer"><div class="container d-flex flex-column flex-md-row justify-content-between gap-2"><span>© {% now "Y" %} Joseph Nyongesa. All rights reserved.</span><span>Designed and built with care.</span></div></footer>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
