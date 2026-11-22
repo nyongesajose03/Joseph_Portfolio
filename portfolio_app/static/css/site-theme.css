@@ -153,11 +153,14 @@ a:hover {
 .reference-details a { font-weight: 650; }
 .service-card h3, .project-card h3 { color: var(--site-navy); font-size: 1.1rem; font-weight: 750; }
 .service-card p, .project-card p { color: var(--site-muted); font-size: .93rem; }
-.project-card { height: 100%; padding: 1.5rem; border-top: 3px solid var(--site-orange); border-radius: .8rem; background: var(--site-white); box-shadow: 0 12px 32px rgba(20, 43, 69, .07); }
+.project-card { height: 100%; padding: 1.5rem; border-top: 3px solid var(--site-orange); border-radius: .8rem; background: var(--site-white); box-shadow: 0 12px 32px rgba(15, 23, 42, .07); }
 .project-number { display: block; margin-bottom: 2.5rem; color: var(--site-orange-dark); font-size: .8rem; font-weight: 800; letter-spacing: .1em; }
 .project-tag { display: inline-block; margin-top: .5rem; padding: .3rem .6rem; border-radius: 999px; background: #cffafe; color: #0e7490; font-size: .75rem; font-weight: 700; }
 .project-link { display: block; margin: 1rem 0 .7rem; color: var(--site-blue); font-size: .85rem; font-weight: 750; text-decoration: none; }
 .project-link:hover, .project-link:focus { color: var(--site-orange-dark); text-decoration: underline; text-underline-offset: 3px; }
+.project-actions { display: flex; flex-wrap: wrap; gap: .35rem .8rem; align-items: center; margin: 1rem 0 .7rem; }
+.project-actions .project-link { margin: 0; }
+.project-demo { padding: .35rem .65rem; border: 1px solid var(--site-border); border-radius: .45rem; background: #f1f5f9; color: var(--site-muted); font-size: .78rem; font-weight: 700; cursor: not-allowed; }
 .contact-section { background: var(--site-navy-deep); color: var(--site-white); }
 .contact-section .section-heading { color: var(--site-white); }
 .contact-section .text-muted { color: #c0cfdd !important; }

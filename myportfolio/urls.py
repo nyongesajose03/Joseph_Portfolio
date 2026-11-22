@@ -14,10 +14,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.static import serve as serve_static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('portfolio_app.urls')),
 ]
+
+if settings.SERVE_STATIC:
+    urlpatterns += [
+        re_path(
+            r'^static/(?P<path>.*)$',
+            serve_static,
+            {'document_root': settings.BASE_DIR / 'portfolio_app' / 'static'},
+        )
+    ]
